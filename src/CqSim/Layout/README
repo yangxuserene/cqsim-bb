@@ -1,0 +1,58 @@
+# 2016/02/27
+
+Sections:
+1. Description of Converter
+2. Description of Layout Converters
+
+
+-------------
+  Converter
+-------------
+
+Overview
+--------
+Converter is a class defined in src/CqSim/Converter.py
+It provides a standard API to a number of layout converters.
+
+API Calls
+---------
+coords = convert_from_idx(type, **kwargs):
+idx    = convert_to_idx(type, **kwargs):
+
+where type   is the layout to be converted to/from
+      idx    is the index of the original node
+      coords is the coordinates of the node in the specified layout
+  and kwargs is the dictionary of arguments to be provided to the converter
+
+In other words, Converter methods take a type of layout specified by a string
+and a dictionary of arguments to the converter. It then passes the arguments
+to the relevant converter and relays the result to the caller. More details
+concerning layout converter implementation can be found in its section.
+
+Additional layout converters can be added by changing the Converter.py file:
+1) Import the relevant converter class.
+2) Add the converter to the self.converters dictionary initialization.
+
+
+---------------------
+  Layout Converters
+---------------------
+
+Overview
+--------
+Layout converters allow for the converting to and from node indices.
+
+Details
+-------
+A layout converter is expect to implement the following methods:
+convert_from_idx(**kwargs)
+convert_to_idx(**kwargs)
+
+In order to ensure this implementation, it is highly recommended to extend
+converters from Layout_Base. Additionally, for the sake of consistency, it is
+recommended that the calls follow these standards:
+
+convert_from_idx should obtain its index argument using the key 'index' and
+                 should return the resulting coodinates as a list'
+
+convert_to_idx should obtain its coordinate arguments using the key 'coords'
