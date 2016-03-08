@@ -14,12 +14,14 @@ Description of API calls:
 from Layout import Hilbert2D
 from Layout import Hilbert3D
 from Layout import Cartesian
+from Layout import Dragonfly
 
 class Converter(object):
   def __init__(self):
     self.converters = { 'Hilbert2D': Hilbert2D.Hilbert2D,
                         'Hilbert3D': Hilbert3D.Hilbert3D,
-                        'Cartesian': Cartesian.Cartesian }
+                        'Cartesian': Cartesian.Cartesian, 
+                        'Dragonfly': Dragonfly.Dragonfly }
 
   def convert_from_idx(self, layout, **kwargs):
     return self.converters[layout].convert_from_idx(**kwargs)

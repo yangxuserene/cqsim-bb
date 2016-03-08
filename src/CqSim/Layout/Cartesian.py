@@ -7,10 +7,10 @@ class Cartesian(Layout_Base):
     if ('index' not in kwargs) or ('dims' not in kwargs):
       print "Cartesian: missing arguments!"
       return
-    idx = kwargs['index'];
-    dims = kwargs['dims'];
+    idx = kwargs['index']
+    dims = kwargs['dims']
 
-    maximum = 1;
+    maximum = 1
     for i in dims:
       maximum *= i
     if idx >= maximum:

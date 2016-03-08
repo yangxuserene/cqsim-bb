@@ -6,6 +6,7 @@ import sys
 from datetime import datetime
 import time
 import re
+import ast
 import cqsim_path
 import cqsim_main
 
@@ -283,7 +284,7 @@ if __name__ == "__main__":
     p.add_option("-m", "--monitor", dest="monitor", type="int",\
         help="monitor interval time")
     
-    # 40
+    # 41
     p.add_option("-M", "--mon_para", dest="mon_para", type="string",\
         action="callback", callback=callback_mon_para,\
         help="monitor parameter list")
@@ -292,6 +293,10 @@ if __name__ == "__main__":
         help="avgrage utilization interval")
     p.add_option("-e", "--ver", dest="module_ver", type="string",\
         help="module group version name")
+    p.add_option("--ltype", dest="ltype", type="string",\
+        help="layout type")
+    p.add_option("--largs", dest="largs", type="string",\
+        help="layout arguments")
         
     opts, args = p.parse_args()
 
@@ -418,6 +423,14 @@ if __name__ == "__main__":
     inputPara['config_sys']=opts.config_sys
     inputPara['monitor']=opts.monitor
     inputPara['module_ver']=opts.module_ver
+
+    # Parse layout arguments
+    inputPara['ltype']=opts.ltype
+    if opts.largs:
+      inputPara['largs']=ast.literal_eval(opts.largs)
+    else:
+      inputPara['largs']={}
+
 
     for item in inputPara_name:
         if not inputPara[item]:

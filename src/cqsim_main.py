@@ -53,7 +53,7 @@ def  cqsim_main(para_list):
     
     # Node Structure
     print ".................... Node Structure"
-    module_node_struc = modules.node(debug=module_debug)
+    module_node_struc = modules.node(debug=module_debug, ltype=para_list['ltype'], largs=para_list['largs'])
     module_node_struc.import_node_file(save_name_n)
     module_node_struc.import_node_config(config_name_n)
     

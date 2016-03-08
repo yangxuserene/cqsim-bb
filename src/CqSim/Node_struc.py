@@ -2,10 +2,12 @@ from datetime import datetime
 import time
 import re
 
+from Converter import Converter
+
 __metaclass__ = type
 
 class Node_struc:
-    def __init__(self, debug=None):
+    def __init__(self, debug=None, ltype="", largs={}):
         self.myInfo = "Node Structure"
         self.debug = debug
         self.nodeStruc = []
@@ -18,6 +20,12 @@ class Node_struc:
         self.idle = -1
         self.avail = -1
         self.show_module_info()
+
+        # Layout variables
+        self.converter = Converter()
+        self.layout = ltype
+        self.layout_args = largs
+        self.layout_location = []
         
         
     def reset(self, debug=None):
@@ -32,6 +40,9 @@ class Node_struc:
         self.tot = -1
         self.idle = -1
         self.avail = -1
+        self.layout = ""
+        self.layout_args = {}
+        self.layout_location = [] 
     
     def show_module_info (self):
         #self.debug.line(1," ")
@@ -53,6 +64,7 @@ class Node_struc:
         nodeFile = open(node_file,'r')
         self.nodeStruc = []
         i = 0
+        new_args = self.layout_args.copy()
         while (1):
             tempStr = nodeFile.readline()
             if not tempStr :    # break when no more line
@@ -70,6 +82,14 @@ class Node_struc:
                           "extend": None}
             self.nodeStruc.append(tempInfo)
             self.nodePool.append(i)
+
+            # Append coordinates of node to locations list
+            if self.layout != "":
+              new_args['index'] = i
+              coords = self.converter.convert_from_idx(self.layout, **new_args)
+              self.layout_location.append(coords)
+              print "added node ", i, " with coordinates ", coords
+
             i += 1
         nodeFile.close()
         self.tot = len(self.nodeStruc)
